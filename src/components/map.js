@@ -1,30 +1,6 @@
 import mapboxgl from 'npm:mapbox-gl';
 
-// I know this is not the best practice, but I'm just trying to get the map to work
-// I'll change this later
-mapboxgl.accessToken = 'pk.eyJ1IjoicmFodWxiOTkiLCJhIjoiY203aHV5dW81MHB2NjJrcHk5OGZzYWlyeCJ9.AX6gxWKvncRUNuvFNw8hbw';
-
-// Create and style the map container
-const mapContainer = document.createElement('div');
-mapContainer.id = 'map';
-mapContainer.style.height = '100vh';
-mapContainer.style.width = '100vw';
-mapContainer.style.position = 'absolute';
-mapContainer.style.top = '0';
-mapContainer.style.left = '0';
-document.body.appendChild(mapContainer);
-
-// Initialize the map
-const map = new mapboxgl.Map({
-    container: 'map',
-    style: 'mapbox://styles/mapbox/dark-v11',
-    center: [-97.73, 30.28], // starting position
-    zoom: 12 // starting zoom
-});
-
-// Add zoom and rotation controls to the map
-map.addControl(new mapboxgl.NavigationControl());
-
+// Fetch past 24 hours of traffic accident data from the City of Austin
 const url = `https://data.austintexas.gov/resource/dx9v-zd7x.json?$where=traffic_report_status_date_time>'${new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()}'`;
 const accidentData = await fetch(url)
     .then(response => response.json())
@@ -50,9 +26,35 @@ const accidentData = await fetch(url)
         return geojson;
     });
 
+// I know this is not the best practice, but I'm just trying to get the map to work
+// I'll change this later
+mapboxgl.accessToken = 'pk.eyJ1IjoicmFodWxiOTkiLCJhIjoiY203aHV5dW81MHB2NjJrcHk5OGZzYWlyeCJ9.AX6gxWKvncRUNuvFNw8hbw';
+
+// Create and style the map container
+const mapContainer = document.createElement('div');
+mapContainer.id = 'map';
+mapContainer.style.height = '100vh';
+mapContainer.style.width = '100vw';
+mapContainer.style.position = 'absolute';
+mapContainer.style.top = '0';
+mapContainer.style.left = '0';
+document.body.appendChild(mapContainer);
+
+// Initialize the map
+const map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/dark-v11',
+    center: [-97.73, 30.28], // starting position
+    zoom: 12 // starting zoom
+});
+
+// Add zoom and rotation controls to the map
+map.addControl(new mapboxgl.NavigationControl());
+
+// Show a popup with the accident details when a point is clicked
 const showPopup = (feature) => {
-    return `<div class="map-overlay-inner" style="padding: 10px; background: #fff; border-radius: 3px;">
-        <code>${feature.properties.issue_reported}</code><hr>
+    return `<div id="accident_props" style="border-radius: 3px; padding: 5px;">
+        <strong style="font-size: 16px;">${feature.properties.issue_reported.trim()}</strong><hr>
         ${Object.entries(feature.properties)
             .filter(([key]) => key !== 'issue_reported')
             .map(([key, value]) => `<li><b>${key}</b>: ${value}</li>`)
