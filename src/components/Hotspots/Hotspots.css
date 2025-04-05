@@ -1,12 +1,14 @@
-.MainDash{
+.Hotspots{
     padding-top: 1rem;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
+    min-height: 100px;;
 }
 
+
 @media screen and (max-width: 1200px) {
-    .MainDash{
+    .Hotspots{
         justify-content:flex-start;
         margin-top: 2rem;
     }
@@ -14,7 +16,7 @@
 
 @media screen and (max-width: 768px)
 {
-    .MainDash{
+    .Hotspots{
         align-items: center;
     }
 }

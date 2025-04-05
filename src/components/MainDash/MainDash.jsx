@@ -1,6 +1,7 @@
 import React from "react";
 import Cards from "../Cards/Cards";
-import Map from "../Map/Map";
+import Map from "../../Map/Map";
+
 import "./MainDash.css";
 const MainDash = () => {
   return (

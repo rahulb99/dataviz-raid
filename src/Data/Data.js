@@ -8,26 +8,30 @@ import {
 } from "@iconscout/react-unicons";
 
 // Analytics Cards imports
-import { UilHeartbeat , UilHospital, UilCar} from "@iconscout/react-unicons";
+import { UilHeartbeat , UilHospital, UilCar, UilExclamationTriangle } from "@iconscout/react-unicons";
 
 // Recent Card Imports
 import img1 from "../imgs/img1.png";
 import img2 from "../imgs/img2.png";
 import img3 from "../imgs/img3.png";
+import { path } from "d3";
 
 // Sidebar Data
 export const SidebarData = [
   {
     icon: UilEstate,
     heading: "Home",
+    path : "/home",
   },
   {
     icon: UilApps,
     heading: "Dashboard",
+    path : "/dashboard",
   },
   {
     icon: UilFocusTarget,
     heading: "Hotspots",
+    path : "/hotspots",
   },
   {
     icon: UilSetting,
@@ -48,8 +52,8 @@ export const cardsData = [
     png: UilHeartbeat,
     series: [
       {
-        name: "Sales",
-        data: [31, 40, 28, 51, 42, 109, 100],
+        name: "Fatalities",
+        data: [5, 15, 9, 20, 14, 18, 22],
       },
     ],
   },
@@ -64,8 +68,8 @@ export const cardsData = [
     png: UilCar,
     series: [
       {
-        name: "Revenue",
-        data: [10, 100, 50, 70, 80, 30, 40],
+        name: "Crashes",
+        data: [20, 30, 50, 70, 90, 120, 150],
       },
     ],
   },
@@ -81,31 +85,47 @@ export const cardsData = [
     png: UilHospital,
     series: [
       {
-        name: "Expenses",
-        data: [10, 25, 15, 30, 12, 15, 20],
+        name: "Injuries",
+        data: [12, 18, 25, 30, 35, 40, 45],
+      },
+    ],
+  },
+  {
+    title: "High-Risk Areas",
+    color: {
+      backGround: "linear-gradient(180deg, #FFAA33 0%, #FF6600 100%)",
+      boxShadow: "0px 10px 20px 0px #FFCC99",
+    },
+    barValue: 90,
+    value: "128",
+    png: UilExclamationTriangle,
+    series: [
+      {
+        name: "Risk Areas",
+        data: [3, 5, 7, 9, 11, 15, 18],
       },
     ],
   },
 ];
 
-// Recent Update Card Data
+// Recent Incident Updates Data
 export const UpdatesData = [
   {
     img: img1,
-    name: "Andrew Thomas",
-    noti: "has ordered Apple smart watch 2500mh battery.",
-    time: "25 seconds ago",
+    name: "Austin Police Department",
+    noti: "Reported a major crash at I-35 & 6th St.",
+    time: "10 minutes ago",
   },
   {
     img: img2,
-    name: "James Bond",
-    noti: "has received Samsung gadget for charging battery.",
+    name: "Traffic Control Center",
+    noti: "Multiple lane closures due to an accident on Mopac Expy.",
     time: "30 minutes ago",
   },
   {
     img: img3,
-    name: "Iron Man",
-    noti: "has ordered Apple smart watch, samsung Gear 2500mh battery.",
-    time: "2 hours ago",
+    name: "EMS Alert",
+    noti: "Serious injury crash at Lamar Blvd & 24th St. Emergency responders on site.",
+    time: "1 hour ago",
   },
 ];
