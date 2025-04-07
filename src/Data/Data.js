@@ -30,12 +30,8 @@ export const SidebarData = [
   },
   {
     icon: UilFocusTarget,
-    heading: "Hotspots",
-    path : "/hotspots",
-  },
-  {
-    icon: UilSetting,
-    heading: 'Settings'
+    heading: "Analysis",
+    path : "/analysis",
   },
 ];
 

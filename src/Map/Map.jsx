@@ -74,7 +74,7 @@ export default function TrafficMap() {
           .append("circle")
           .attr("pointer-events", "all") 
           .attr("r", 5)
-          .attr("fill", "red")
+          .attr("fill", d => d.traffic_report_status === "ARCHIVED" ? "green" : "red")
           .attr("stroke", "white")
           .attr("stroke-width", 1)
           .on("mouseover", (event, d) => {
@@ -102,7 +102,6 @@ export default function TrafficMap() {
                 .on("mouseout", () => {
                   d3.select("#tooltip").style("display", "none");
                 });
-          
 
         const updatePositions = () => {
           circles.attr("cx", d => {

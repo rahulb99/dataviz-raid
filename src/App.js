@@ -17,7 +17,7 @@ function App() {
             <Route path="/dashboard" element={<MainDash />} />
             <Route path="/Hotspots" element={<Hotspots />} />
           </Routes>
-          <RightSide />
+          {/* <RightSide /> */}
           
           {/* <Hotspots/> */}
         </div>
