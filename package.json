@@ -1,0 +1,13 @@
+{
+    "name": "react-express-fullstack",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+      "client": "yarn --cwd client start",
+      "server": "yarn --cwd server start",
+      "dev": "concurrently \"yarn client\" \"yarn server\""
+    },
+    "devDependencies": {
+      "concurrently": "^8.2.0"
+    }
+  }
