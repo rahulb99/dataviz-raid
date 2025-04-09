@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 5432;
 app.use(cors());
 app.use(express.json());
 
-// console.log(process.env.DATABASE_URL);
+
 // PostgreSQL connection
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -23,7 +23,7 @@ const pool = new Pool({
 app.get('/api/traffic_accidents', async (req, res) => {
   try {
     // Get data from the last 24 hours
-    const oneDayAgo = new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString();
+    const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
     
     const query = `
       SELECT * FROM traffic_accidents 
@@ -39,10 +39,9 @@ app.get('/api/traffic_accidents', async (req, res) => {
   }
 });
 
-// API endpoint to get latest incident data
+// API endpoint to get latest 7 incident data
 app.get('/api/updates', async (req, res) => {
   try {
-    
     const query = `
       SELECT * FROM traffic_accidents 
       ORDER BY published_date DESC LIMIT 7;
@@ -57,11 +56,40 @@ app.get('/api/updates', async (req, res) => {
   }
 });
 
+// API endpoint to get crash data for different travel modes
+app.get('/api/travel_mode', async (req, res) => {
+  try {
+    const query = `
+      SELECT 
+          EXTRACT(YEAR FROM Crash_timestamp_ct) AS crash_year, 
+          SUM(motor_vehicle_death_count) AS motor_vehicle_death,
+          SUM(motor_vehicle_serious_injury_count) AS motor_vehicle_serious_injury,
+          SUM(bicycle_death_count) AS bicycle_death,
+          SUM(bicycle_serious_injury_count) AS bicycle_serious_injury,
+          SUM(pedestrian_death_count) AS pedestrian_death,
+          SUM(pedestrian_serious_injury_count) AS pedestrian_serious_injury,
+          SUM(motorcycle_death_count) AS motorcycle_death,
+          SUM(motorcycle_serious_injury_count) AS motorcycle_serious_injury,
+          SUM(other_death_count) AS other_death,
+          SUM(other_serious_injury_count) AS other_serious_injury,
+          SUM(micromobility_serious_injury_count) AS micromobility_serious_injury,
+          SUM(micromobility_death_count) AS micromobility_death
+      FROM crash_reports
+      GROUP BY EXTRACT(YEAR FROM Crash_timestamp_ct)
+    `;
+    
+    const result = await pool.query(query);
+    res.json(result.rows);
+    // console.log('Crash data fetched successfully:', result.rows);
+  } catch (error) {
+    console.error('Error fetching accident data:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
 
 // API endpoint to get top 5 areas with highest incidents
 app.get('/api/top_5', async (req, res) => {
   try {
-    
     const query = `
       SELECT address, count(*) as count_address 
       FROM traffic_accidents 
@@ -72,7 +100,7 @@ app.get('/api/top_5', async (req, res) => {
     
     const result = await pool.query(query);
     res.json(result.rows);
-    console.log('Accident data fetched successfully:', result.rows);
+    // console.log('Accident data fetched successfully:', result.rows);
   } catch (error) {
     console.error('Error fetching accident data:', error);
     res.status(500).json({ error: 'Server error' });
@@ -80,7 +108,7 @@ app.get('/api/top_5', async (req, res) => {
 });
 
 
-// API endpoint to get card data
+// API endpoint to get card data for Main Dashboard
 app.get('/api/cards-data', async (req, res) => {
   try {
     const currentYear = new Date().getFullYear();
@@ -130,6 +158,7 @@ app.get('/api/cards-data', async (req, res) => {
       return data;
     };
 
+    // JSON formatting for cards' data
     const formatted = [
       {
         title: "Fatalities",
