@@ -2,13 +2,16 @@
 import React, { useState, useEffect } from "react";
 import "./Cards.css";
 import Card from "../Card/Card";
-import { UilHeartbeat , UilHospital, UilCar, UilDollarAlt , UilExclamationTriangle } from "@iconscout/react-unicons";
+import { UilHeartbeat , UilHospital, UilCar, UilDollarAlt } from "@iconscout/react-unicons";
 
+// Cards component that fetches and displays card data
+// It uses the Card component to display individual cards with data
 const Cards = () => {
   const [cardsData, setCardsData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Fetch card data from the server when the component mounts
   useEffect(() => {
     const fetchCardData = async () => {
       try {
@@ -39,9 +42,9 @@ const Cards = () => {
           <div className="parentContainer" key={id}>
             <Card
               title={card.title}
-              color={getCardColor(card.title)} // Function to determine color based on title
+              color={getCardColor(card.title)}
               value={card.value}
-              png={getCardIcon(card.title)} // Function to determine icon based on title
+              png={getCardIcon(card.title)}
               series={card.series}
             />
           </div>
@@ -61,7 +64,7 @@ const getCardColor = (title) => {
     case "Serious Injuries":
       return { backGround: "linear-gradient(180deg,  rgb(252, 202, 116) 0%,  rgb(225, 195, 142) 100%)", boxShadow: "0px 10px 20px 0px #F9D59B" };
     case "Compensation Cost":
-      return { backGround: "linear-gradient(180deg,rgb(239, 146, 180)  0%,rgb(225, 146, 185)   100%)", boxShadow: "0px 10px 20px 0pxrgb(155, 249, 219)" };
+      return { backGround: "linear-gradient(180deg,rgb(239, 146, 180)  0%,rgb(225, 146, 185)   100%)", boxShadow: "0px 10px 20px 0px rgb(240, 170, 205)" };
     default:
       return { backGround: "linear-gradient(180deg, #bb67ff 0%, #c484f3 100%)", boxShadow: "0px 10px 20px 0px #e0c6f5" };
   }
@@ -69,18 +72,17 @@ const getCardColor = (title) => {
 
 // Helper function to determine card icon based on title
 const getCardIcon = (title) => {
-  // Import icons dynamically or return a component based on title
   switch (title) {
     case "Fatalities":
-      return UilHeartbeat //(props) => <div {...props}>UilHeartbeat</div>; // Replace with actual icon component
+      return UilHeartbeat
     case "Total Crashes":
-      return UilHospital // ( props) => <div {...props}>🚗</div>; // Replace with actual icon component
+      return UilHospital
     case "Serious Injuries":
-      return UilCar // (props) => <div {...props}>🏥</div>; // Replace with actual icon component
+      return UilCar
     case "Compensation Cost":
-      return UilDollarAlt // (props) => <div {...props}>💰</div>; // Replace with actual icon component
+      return UilDollarAlt
     default:
-      return (props) => <div {...props}>📊</div>; // Replace with actual icon component
+      return (props) => <div {...props}>📊</div>;
   }
 };
 

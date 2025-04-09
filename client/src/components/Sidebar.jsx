@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./Sidebar.css";
 import Logo from "../imgs/logo.png";
-import { UilSignOutAlt } from "@iconscout/react-unicons";
 import { SidebarData } from "../Data/Data";
 import { UilBars } from "@iconscout/react-unicons";
 import { motion } from "framer-motion";
@@ -10,8 +9,14 @@ import { motion } from "framer-motion";
 const Sidebar = () => {
   const location = useLocation();
   const [selected, setSelected] = useState(0);
-
   const [expanded, setExpaned] = useState(true)
+
+  useEffect(() => {
+    const currentIndex = SidebarData.findIndex(item => item.path === location.pathname);
+    if (currentIndex !== -1) {
+      setSelected(currentIndex);
+    }
+  }, [location.pathname]);
 
   const sidebarVariants = {
     true: {
@@ -22,7 +27,6 @@ const Sidebar = () => {
     }
   }
 
-  // console.log(window.innerWidth)
   return (
     <>
       <div className="bars" style={expanded?{left: '60%'}:{left: '5%'}} onClick={()=>setExpaned(!expanded)}>
@@ -32,7 +36,7 @@ const Sidebar = () => {
     variants={sidebarVariants}
     animate={window.innerWidth<=768?`${expanded}`:''}
     >
-      {/* logo */}
+      {/* RAID logo */}
       <div className="logo">
         <img src={Logo} alt="logo" />
         <span>
@@ -40,9 +44,10 @@ const Sidebar = () => {
         </span>
       </div>
 
+      {/* Showing content for active menu */}
       <div className="menu">
         {SidebarData.map((item, index) => {
-          const isActive = location.pathname === item.path; // Check if the tab is active
+          const isActive = location.pathname === item.path;
           return (
             <Link to={item.path} key={index} className="menuItem">
               <div
