@@ -57,7 +57,8 @@ docker run --rm -p 3000:3000 -t raid
 
 3. Open http://localhost:3000 in your browser.
 
-### Prerequisites
+
+### Without Docker
 Ensure you have the following installed:
 * Node.js
 * yarn
