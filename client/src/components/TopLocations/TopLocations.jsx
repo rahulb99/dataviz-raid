@@ -9,6 +9,7 @@ const TopLocationsChart = () => {
   const svgRef = useRef();
   const containerRef = useRef();
 
+  // Fetch data from backend API
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -28,57 +29,56 @@ const TopLocationsChart = () => {
     fetchData();
   }, []);
 
-  // Function to wrap long text into multiple lines
-function wrapText(text, width) {
-  text.each(function () {
-    const text = d3.select(this);
-    const words = text.text().split(/\s+/).reverse();
-    let word;
-    let line = [];
-    const lineHeight = 1.1; // Line height multiplier
-    const y = text.attr('y');
-    const dy = parseFloat(text.attr('dy')) || 0;
-    let tspan = text.text(null)
-      .append('tspan')
-      .attr('x', 0)
-      .attr('y', y)
-      .attr('dy', `${dy}em`);
+  // Function to wrap long text into multiple lines if address is cutting off
+  function wrapText(text, width) {
+    text.each(function () {
+      const text = d3.select(this);
+      const words = text.text().split(/\s+/).reverse();
+      let word;
+      let line = [];
+      const lineHeight = 1.1;
+      const y = text.attr('y');
+      const dy = parseFloat(text.attr('dy')) || 0;
+      let tspan = text.text(null)
+        .append('tspan')
+        .attr('x', 0)
+        .attr('y', y)
+        .attr('dy', `${dy}em`);
 
-    while ((word = words.pop())) {
-      line.push(word);
-      tspan.text(line.join(' '));
-      if (tspan.node().getComputedTextLength() > width) {
-        line.pop();
+      while ((word = words.pop())) {
+        line.push(word);
         tspan.text(line.join(' '));
-        line = [word];
-        tspan = text.append('tspan')
-          .attr('x', 0)
-          .attr('y', y)
-          .attr('dy', `${lineHeight}em`)
-          .text(word);
+        if (tspan.node().getComputedTextLength() > width) {
+          line.pop();
+          tspan.text(line.join(' '));
+          line = [word];
+          tspan = text.append('tspan')
+            .attr('x', 0)
+            .attr('y', y)
+            .attr('dy', `${lineHeight}em`)
+            .text(word);
+        }
       }
-    }
-  });
-}
+    });
+  }
 
+  // Use D3.js to plot the bar chart
   useEffect(() => {
     if (loading || error || !data.length) return;
-
-    // Clear any existing chart
+    
     d3.select(svgRef.current).selectAll('*').remove();
 
-    // Set dimensions and margins
+    // Set dimensions and margins of canvas
     const margin = { top: 20, right: 30, bottom: 40, left: 150 };
     const containerWidth = containerRef.current.clientWidth;
     const width = containerWidth - margin.left - margin.right;
     const height = 280 - margin.top - margin.bottom;
 
-    // Sort data by count (ascending for bottom-to-top display)
     const sortedData = [...data].sort((a, b) => a.count_address - b.count_address);
 
     // Create scales
     const x = d3.scaleLinear()
-      .domain([0, d3.max(data, d => d.count_address) * 1.1]) // Add 10% padding
+      .domain([0, d3.max(data, d => d.count_address) * 1.1])
       .range([0, width]);
 
     const y = d3.scaleBand()
@@ -132,11 +132,11 @@ function wrapText(text, width) {
       .attr('y', d => y(d.address))
       .attr('height', y.bandwidth())
       .attr('x', 0)
-      .attr('width', 0) // Start at 0 for animation
+      .attr('width', 0)
       .attr('fill', d => colorScale(d.count_address))
-      .attr('rx', 4) // Rounded corners
+      .attr('rx', 4)
       .attr('ry', 4)
-      .transition() // Add animation
+      .transition()
       .duration(800)
       .delay((d, i) => i * 100)
       .attr('width', d => x(d.count_address));
@@ -155,21 +155,11 @@ function wrapText(text, width) {
       .style('font-weight', 'bold')
       .style('text-anchor', 'start')
       .text(d => d.count_address)
-      .style('opacity', 0) // Start transparent for animation
+      .style('opacity', 0)
       .transition()
       .duration(800)
       .delay((d, i) => i * 100 + 300)
       .style('opacity', 1);
-
-    // Title
-    // svg.append('text')
-    //   .attr('x', width / 2)
-    //   .attr('y', -margin.top / 2 + 10)
-    //   .attr('text-anchor', 'middle')
-    //   .style('font-size', '16px')
-    //   .style('font-weight', 'bold')
-    //   .text('Top 5 Incident Locations');
-
   }, [data, loading, error]);
 
   if (loading) return <div className="chart-container">Loading...</div>;

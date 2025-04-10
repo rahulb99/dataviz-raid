@@ -6,25 +6,19 @@ import "./Map.css";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_GL_ACCESS_TOKEN;
 
-console.log("Mapbox Access Token from .env:", process.env.REACT_APP_MAPBOX_GL_ACCESS_TOKEN);
-console.log("Backend URL from .env:", process.env.REACT_APP_BACKEND_URL);
-
 export default function TrafficMap() {
   const mapContainerRef = useRef(null);
   const [map, setMap] = useState(null);
   const [accidentData, setAccidentData] = useState([]);
-  // Define your backend URL - adjust as needed
+
   const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5432';
   
+  // Fetch accident data from the backend API
   useEffect(() => {
     const fetchAccidentData = async () => {
-      // const url = `https://data.austintexas.gov/resource/dx9v-zd7x.json?$where=traffic_report_status_date_time>'${new Date(
-      //   Date.now() - 24 * 60 * 60 * 1000
-      // ).toISOString()}'`;
-
       try {
         const response = await fetch(`${BACKEND_URL}/api/traffic_accidents`);
-        console.log("Response from API:", response); // Log the response
+        // console.log("Response from API:", response);
         const data = await response.json();
         setAccidentData(data);
       } catch (error) {
@@ -32,17 +26,18 @@ export default function TrafficMap() {
       }
     };
 
-    fetchAccidentData(); // Initial fetch
+    fetchAccidentData();
 
     // Auto-refresh API every 10 minutes
     const intervalId = setInterval(() => {
       console.log("Fetching new accident data...");
       fetchAccidentData();
-    }, 600000); // 600,000ms = 10 minutes
+    }, 600000);
 
-    return () => clearInterval(intervalId); // Cleanup interval on unmount
+    return () => clearInterval(intervalId);
   }, []);
 
+  // Initialize the map
   useEffect(() => {
     if (!mapContainerRef.current) return;
 
@@ -56,9 +51,10 @@ export default function TrafficMap() {
     newMap.addControl(new mapboxgl.NavigationControl());
     newMap.on("load", () => setMap(newMap));
 
-    return () => newMap.remove(); // Cleanup map on unmount
+    return () => newMap.remove();
   }, []);
 
+  // Use D3.js to overlay accident data on the map
   useEffect(() => {
     if (map && accidentData.length > 0) {
       const updateOverlay = () => {
@@ -99,7 +95,7 @@ export default function TrafficMap() {
               `);
           })
           .on("mousemove", (event) => {
-            const offsetY = event.clientY < window.innerHeight / 2 ? -250 : -350; // below or above the cursor
+            const offsetY = event.clientY < window.innerHeight / 2 ? -250 : -350;
             const tooltip = d3.select("#tooltip");
 
             tooltip
@@ -133,12 +129,10 @@ export default function TrafficMap() {
   }, [map, accidentData]);
 
   return (
-    // <div className="heading"><h1>Roadway Analytics & Incident Dashboard</h1>
     <div className="map-container">
       <div ref={mapContainerRef} className="mapboxgl-map"></div>
       <div id="tooltip"></div>
     </div>
-    // </div>
   );
 }
 

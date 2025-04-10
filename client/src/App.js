@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router';
 import './App.css'
 import MainDash from './components/MainDash/MainDash';
 import RightSide from './components/RigtSide/RightSide';
@@ -21,8 +21,6 @@ function App() {
             <Route path="/Settings" element={<Settings />} />
           </Routes>
           <RightSide />
-          
-          {/* <Hotspots/> */}
         </div>
       </div>
     </Router>

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./Updates.css";
-import logo from "../../imgs/apd.png"; // Import the image if needed
+import logo from "../../imgs/austin.png"; 
+import travis from "../../imgs/travis-1.png";
 import { text } from "d3";
+
 const Updates = () => {
   const [updatesData, setUpdatesData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -22,7 +24,7 @@ const Updates = () => {
     return `${diffInDays} days ago`;
   };
 
-  // Fetch data from the Express.js API
+  // Fetch data from the backend API
   useEffect(() => {
     const fetchUpdatesData = async () => {
       try {
@@ -31,9 +33,9 @@ const Updates = () => {
           throw new Error("Failed to fetch updates data");
         }
         const data = await response.json();
-        // Map the data to include calculated description and time ago
+        
         const formattedData = data.map((item) => ({
-          img: logo, // Replace with a dynamic image path if needed
+          img: item.agency?.toLowerCase().includes('austin') ? logo : travis,
           agency: item.agency || "Unknown Agency",
           description: `${item.issue_reported || "Incident"} at ${item.address || "Unknown Location"}`,
           time: calculateTimeAgo(item.published_date),

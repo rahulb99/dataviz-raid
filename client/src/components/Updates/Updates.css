@@ -21,6 +21,7 @@ h2 {
 .update>img{
     width: 3.2rem;
     height: 3.2rem;
+    object-fit: cover;
 }
 
 .noti>div>span:nth-of-type(1){

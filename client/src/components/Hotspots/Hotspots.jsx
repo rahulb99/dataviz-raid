@@ -1,12 +1,17 @@
 import React from "react";
-import Map from "../Map/Map";
+import TravelMode from "../TravelMode/TravelMode";
+import Demographic from "../Demographic/Demographic";
 
 import "./Hotspots.css";
+
 const Hotspots = () => {
   return (
     <><div className="Hotspots">
        <h1>Geo Visualization</h1>
-      <Map />
+      <div className="geo-container">
+        <TravelMode />
+        <Demographic />
+      </div>
     </div>
     </>
   );

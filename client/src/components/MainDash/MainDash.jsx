@@ -3,6 +3,8 @@ import Cards from "../Cards/Cards";
 import Map from "../Map/Map";
 
 import "./MainDash.css";
+
+// MainDash component that serves as the main dashboard for the application
 const MainDash = () => {
   return (
     <div className="MainDash">
