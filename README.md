@@ -42,6 +42,21 @@ Welcome to RAID - Roadway Analytics & Incident Dashboard, your go-to web app for
 
 
 ## Installation
+### Using Docker
+1. Clone the repository:
+```
+git clone https://github.com/rahulb99/dataviz-raid
+cd dataviz-raid
+```
+
+2. Run:
+```
+docker build -t raid .
+docker run --rm -p 3000:3000 -t raid
+```
+
+3. Open http://localhost:3000 in your browser.
+
 ### Prerequisites
 Ensure you have the following installed:
 * Node.js
