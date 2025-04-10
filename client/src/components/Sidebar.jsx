@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router";
+import { Link, useLocation } from "react-router-dom";
 import "./Sidebar.css";
 import Logo from "../imgs/logo.png";
 import { SidebarData } from "../Data/Data";
-import { UilBars } from "@iconscout/react-unicons";
+import UilBars from "@iconscout/react-unicons/icons/uil-bars";
 import { motion } from "framer-motion";
 
 const Sidebar = () => {
