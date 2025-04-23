@@ -23,14 +23,14 @@ const pool = new Pool({
 app.get('/api/traffic_accidents', async (req, res) => {
   try {
     // Get data from the last 24 hours
-    const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+    // const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
     
     const query = `
       SELECT * FROM traffic_accidents 
-      WHERE CAST(published_date AS DATE) >= $1
+      WHERE CAST(published_date AS DATE) >='2018-01-01';
     `;
     
-    const result = await pool.query(query, [oneDayAgo]);
+    const result = await pool.query(query);
     res.json(result.rows);
     // console.log('Accident data fetched successfully:', result.rows);
   } catch (error) {
