@@ -1,5 +1,5 @@
 /* Styles for the toggle buttons */
-.toggle-button {
+.days-toggle-button {
   padding: 7px 7px;
   border-radius: 5rem;
   font-size: 16px;
@@ -9,22 +9,22 @@
   gap: 10px;
 }
 
-.toggle-button.active {
+.days-toggle-button.active {
   background-color: #BA5370;
   color: white;
 }
 
-.toggle-button.inactive {
+.days-toggle-button.inactive {
   background-color: #e5e7eb;
   color: #374151;
   opacity: 0.7;
 }
 
-.toggle-button.inactive:hover {
+.days-toggle-button.inactive:hover {
   background-color: #d1d5db;
 }
 
-.toggle-button:not(:last-child) {
+.days-toggle-button:not(:last-child) {
   margin-right: 0.5rem;
 }
 .justify-center {
@@ -33,21 +33,37 @@
   margin-bottom: 1rem;;
 }
 
-.container {
+.day {
+  shape-rendering: crispEdges;
+}
+
+.tooltip {
+  position: absolute;
+  padding: 5px;
+  background: white;
+  border: 1px solid #ccc;
+  font-size: 12px;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.days-container {
   padding: 1rem;
   background-color: #F8F8F8;
   border-radius: 10px;
-  width: 100%;
-  max-width: 680px;
+  width: 680px;
+  margin-top: 3rem;
+  /* margin-left: 3rem; */
+  /* max-width: */
   height: auto;
   position: relative;
   overflow: visible;
   box-sizing: border-box;
 }
 
-.chart {
-  width: 680px;
-  height: 300px;
+.chart-days {
+  width: 100%;
+  height: 420px;
 }
 
 .travel-mode-tooltip {
@@ -74,16 +90,16 @@
 
 /* Media query for smaller devices */
 @media screen and (max-width: 768px) {
-  .container {
+  .days-container {
     padding: 1rem;
     max-width: 100%;
   }
 
-  .chart {
+  .chart-days {
     height: 250px;
   }
 
-  .toggle-button {
+  .days-toggle-button {
     padding: 8px 14px;
     font-size: 14px;
   }

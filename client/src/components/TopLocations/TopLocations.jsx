@@ -71,7 +71,7 @@ const TopLocationsChart = () => {
     // Set dimensions and margins of canvas
     const margin = { top: 20, right: 30, bottom: 40, left: 150 };
     const containerWidth = containerRef.current.clientWidth;
-    const width = containerWidth - margin.left - margin.right;
+    const width = containerWidth - margin.left - margin.right - 10;
     const height = 280 - margin.top - margin.bottom;
 
     const sortedData = [...data].sort((a, b) => a.count_address - b.count_address);

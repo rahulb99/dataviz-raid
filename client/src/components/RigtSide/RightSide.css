@@ -4,6 +4,8 @@
     padding-top: 7rem;
     width: 100%;
     justify-content: top;
+    align-items: left;
+    gap: 1rem;
 }
 
 

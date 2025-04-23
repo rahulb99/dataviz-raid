@@ -14,11 +14,37 @@ export default function TrafficMap() {
   const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5432';
   
   // Fetch accident data from the backend API
+  // useEffect(() => {
+  //   const fetchAccidentData = async () => {
+  //     try {
+  //       const response = await fetch(`${BACKEND_URL}/api/traffic_accidents`);
+  //       // console.log("Response from API:", response);
+  //       const data = await response.json();
+  //       setAccidentData(data);
+  //     } catch (error) {
+  //       console.error("Error fetching accident data:", error);
+  //     }
+  //   };
+
+  //   fetchAccidentData();
+
+  //   // Auto-refresh API every 10 minutes
+  //   const intervalId = setInterval(() => {
+  //     console.log("Fetching new accident data...");
+  //     fetchAccidentData();
+  //   }, 600000);
+
+  //   return () => clearInterval(intervalId);
+  // }, []);
+
   useEffect(() => {
     const fetchAccidentData = async () => {
+      const url = `https://data.austintexas.gov/resource/dx9v-zd7x.json?$where=traffic_report_status_date_time>'${new Date(
+        Date.now() - 24 * 60 * 60 * 1000
+      ).toISOString()}'`;
+
       try {
-        const response = await fetch(`${BACKEND_URL}/api/traffic_accidents`);
-        // console.log("Response from API:", response);
+        const response = await fetch(url);
         const data = await response.json();
         setAccidentData(data);
       } catch (error) {
@@ -26,13 +52,13 @@ export default function TrafficMap() {
       }
     };
 
-    fetchAccidentData();
+    fetchAccidentData(); // Initial fetch
 
     // Auto-refresh API every 10 minutes
     const intervalId = setInterval(() => {
       console.log("Fetching new accident data...");
       fetchAccidentData();
-    }, 600000);
+    }, 600000); // 600,000ms = 10 minutes
 
     return () => clearInterval(intervalId);
   }, []);

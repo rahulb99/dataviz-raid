@@ -27,8 +27,9 @@ const Updates = () => {
   // Fetch data from the backend API
   useEffect(() => {
     const fetchUpdatesData = async () => {
+      const url = `https://data.austintexas.gov/resource/dx9v-zd7x.json?$order=published_date DESC&$limit=8`;
       try {
-        const response = await fetch("/api/updates");
+        const response = await fetch(url);
         if (!response.ok) {
           throw new Error("Failed to fetch updates data");
         }
@@ -50,6 +51,12 @@ const Updates = () => {
     };
 
     fetchUpdatesData();
+
+    const intervalId = setInterval(() => {
+      fetchUpdatesData();
+    }, 60000); // Fetch new data every 60 seconds
+    return () => clearInterval(intervalId); // Cleanup interval on component unmount
+
   }, []);
 
   if (loading) return <div className="Updates">Loading...</div>;

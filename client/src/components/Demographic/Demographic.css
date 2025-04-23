@@ -36,8 +36,8 @@
   padding: 1rem;
   background-color: #F8F8F8;
   border-radius: 10px;
-  width: 100%;
-  max-width: 600px;
+  /* width: 100%; */
+  max-width: 680px;
   height: auto;
   position: relative;
   overflow: visible;
@@ -45,7 +45,7 @@
 }
 
 .demographic-chart {
-  width: 100%;
+  width: 680px;
   height: 300px;
 }
 
