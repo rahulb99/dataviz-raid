@@ -39,6 +39,15 @@ toc: false
 
 ---
 
+```js
+import { TimeOfDayHeatmap } from './components/time_of_day.js'
+
+const data = await FileAttachment("./data/time_of_day.csv").csv({typed: true});
+display(TimeOfDayHeatmap(data));
+```
+
+---
+
 ## Next steps
 
 Here are some ideas of things you could try…
