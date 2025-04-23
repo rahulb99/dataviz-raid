@@ -26,8 +26,9 @@ app.get('/api/traffic_accidents', async (req, res) => {
     // const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
     
     const query = `
-      SELECT * FROM traffic_accidents 
-      WHERE CAST(published_date AS DATE) >='2018-01-01';
+      SELECT count(distinct traffic_report_id), CAST(published_date AS DATE) FROM traffic_accidents 
+      WHERE CAST(published_date AS DATE) >= '2018-01-01' GROUP BY CAST(published_date AS DATE)
+      ORDER BY CAST(published_date AS DATE) DESC;
     `;
     
     const result = await pool.query(query);
