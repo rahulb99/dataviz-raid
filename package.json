@@ -5,7 +5,7 @@
     "scripts": {
       "client": "yarn --cwd client start",
       "server": "yarn --cwd server start",
-      "dev": "concurrently \"yarn client\" \"yarn server\""
+      "start": "concurrently \"yarn client\" \"yarn server\""
     },
     "devDependencies": {
       "concurrently": "^8.2.0"
