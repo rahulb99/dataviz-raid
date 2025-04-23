@@ -172,7 +172,7 @@ app.get('/api/cards-data', async (req, res) => {
         ]
       },
       {
-        title: "Total Crashes",
+        title: "Crashes",
         value: crashesRes.rows.reduce((sum, r) => sum + parseInt(r.count), 0),
         series: [
           {
@@ -182,7 +182,7 @@ app.get('/api/cards-data', async (req, res) => {
         ]
       },
       {
-        title: "Serious Injuries",
+        title: "Injuries",
         value: injuriesRes.rows.reduce((sum, r) => sum + parseInt(r.count), 0),
         series: [
           {
@@ -192,7 +192,7 @@ app.get('/api/cards-data', async (req, res) => {
         ]
       },
       {
-        title: "Compensation Cost",
+        title: "Compensation",
         value: parseFloat(costRes.rows.reduce((sum, r) => sum + parseFloat(r.cost || 0), 0)).toFixed(2),
         series: [
           {
